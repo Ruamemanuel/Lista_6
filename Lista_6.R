@@ -362,14 +362,26 @@ ggplot(VoteGrowth, aes(Vote, Growth)) +
 # apenas o período de 1876 a 1932. Apresente os resultados e os compare quanto ao modelo completo 
 # (exercício 10) em relação a:
 
-# Realizado regressão do período de 1876 a 1932
-reg11 <- lm(Vote[1:15] ~ Growth[1:15], data = VoteGrowth)
-summary(reg11)
 
-# Produzindo gráfico de dispersão
-votegrowth11 <- VoteGrowth[1:15, c('Year','Growth','Vote')]
-ggplot(votegrowth11, aes(Vote, Growth)) + 
-  labs(x = "Voto", y ="Crescimento", title = "Gráfico de dispersão") +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE)
+# Filtrando a nova base:
 
+VoteGrowth2 <- VoteGrowth[1:15, c("Year","Growth","Vote")]
+
+# Construindo outro modelo
+
+reg2 <- lm(Vote ~ Growth, data = VoteGrowth2)
+
+# Encontrando o intervalo de confiança 
+
+confint(reg2)
+
+# Gráficos 
+
+ggplot(VoteGrowth2, aes(Vote,Growth))+geom_point()+geom_smooth(method = "lm")
+
+# a) O variável independente é estatisticamente significante
+
+# b) 0,64 no primeiro modelo e 1,02 no segundo modelo. Foram analisados a partir da função confint
+
+# c) O primeiro modelo é de 0,31 e o segundo de 0,23. Enquanto o erro padrão no segundo é de 4,955 e
+# 5,638. É preferível que se utilizem os dados completos para que se alcance um melhor resultado. 
