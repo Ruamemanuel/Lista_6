@@ -23,7 +23,7 @@ Os valores de uma pode causar alteracao na outra. Exemplo: Aumento do nivel de c
 
 Modelo de Regressao Amostral
 
-**3. Com suas palavras, apresente uma defini??o para cada um dos componentes da equacao apresentada no exercicio 2.**
+**3. Com suas palavras, apresente uma definicao para cada um dos componentes da equacao apresentada no exercicio 2.**
 
 Yi = valor observado da variavel dependente
 $alpha$  = intercepto 
@@ -354,19 +354,28 @@ ggplot(VoteGrowth, aes(Vote, Growth)) +
 
 **11. Com os dados e as variáveisdo exercício 10, realize uma análise de regressãoconsiderando apenaso período de 1876 a 1932. Apresente os resultados e os compare quanto ao modelo completo (exercício 10) em relação a:** 
 
-**a) Significância estatística dos resultados;**
-
-# Realizado regressão do período de 1876 a 1932
+# Filtrando a nova base:
 ```{r}
-reg11 <- lm(Vote[1:15] ~ Growth[1:15], data = VoteGrowth)
-summary(reg11)
+VoteGrowth2 <- VoteGrowth[1:15, c("Year","Growth","Vote")]
 ```
 
-# Produzindo gráfico de dispersão
-```{r, echo = FALSE}
-votegrowth11 <- VoteGrowth[1:15, c('Year','Growth','Vote')]
-ggplot(votegrowth11, aes(Vote, Growth)) + 
-  labs(x = "Voto", y ="Crescimento", title = "Gráfico de dispersão") +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE)
+# Construindo outro modelo
+```{r}
+reg2 <- lm(Vote ~ Growth, data = VoteGrowth2)
 ```
+
+# Encontrando o intervalo de confiança 
+```{r}
+confint(reg2)
+```
+
+# Gráficos 
+```{r}
+ggplot(VoteGrowth2, aes(Vote,Growth))+geom_point()+geom_smooth(method = "lm")
+```
+
+**a)** A variável independente é estatisticamente significante
+
+**b)** 0,64 no primeiro modelo e 1,02 no segundo modelo. Foram analisados a partir da função confint
+
+**c)** O primeiro modelo é de 0,31 e o segundo de 0,23. Enquanto o erro padrão no segundo é de 4,955 e 5,638. É preferível que se utilizem os dados completos para que se alcance um melhor resultado. 
