@@ -1,0 +1,375 @@
+
+
+
+
+
+#1.Descreva os conceitos abaixo:
+  
+# a)Variavel dependente;**
+  
+ # E uma medida que depende do valor de outra medida
+
+# b)Variavel independente;
+  
+ # E a medida que nao depende de nenhuma outra e pode gerar alteracoes na variavel dependente
+
+# c)Apresente qual a relacao existente entre variaveis independentes e dependentes;
+  
+ # Os valores de uma pode causar alteracao na outra. Exemplo: Aumento do nivel de consumo de drogas 
+ # pode gerar aumento em indices de violencia
+
+# 2. Em analise de dados, qual o nome dado a equacao abaixo?
+
+ # Modelo de Regressao Amostral
+
+#3. Com suas palavras, apresente uma definicao para cada um dos componentes da equacao apresentada 
+#no exercicio 2.
+  
+ # Yi = valor observado da variavel dependente
+ # $alpha$  = intercepto 
+ # $Beta_i$ = coeficiente de variacao
+ # Xi = valor observado da variavel independete
+ # $Mu$ = componente aleatorio
+  
+#4. Apresente o componente sistematico da equacao apresentada no exercicio 2. Descreva por que  
+#sistematico.
+    
+ #$$ Y_i = \alpha_i + \beta_iX$$
+ # É sistemático por ser base explicativa.
+  
+#5. Apresente o componente estocastico da equa??o apresentada no exercicio 2. Descreva por que  
+#estocastico.
+    
+ #$$\mu_i = Y_0 - Y_1 $$
+ # O componente estocástico seria o valor aleatorio da equaçao. E estocastico porque depende de um 
+ # evento que pode ou nao acontecer.
+  
+#6. Descreva a diferenca entre $Y_i$ e ^Y? Qual a relacao desses dois componentes com ui??
+    
+ # ^Y é o valor predito de $Y_i$. $Y_i$ é o valor observado da VD. A subtração dos dois resulta no 
+ # valor da variável independente.
+  
+#7.Com suas palavras, apresente o que e o modelo OLS e seu principal uso na analise de dados.
+    
+ #O OLS busca encontrar um melhor ajuste para o conjunto de dados. 
+  
+#8.Com base no Google’s R Style Guide, apresente exemplos de boas práticas para os seguintes tópicos:
+    
+ # a) File names: Os nomes dos arquivos devem terminar em .R e ser significativos. 
+ # Ex.: votos_crescimento_economico.R
+  
+ # b) Identifiers: Evitar usar "_" ou "-". Usar ".", por ex. pib.brasil ou pibbrasil
+  
+ # c) Indentation: Sempre usar dois espaços e nuca misturar tabulações e espaços
+  
+ # d) Spacing: Colocar espaço em todos os operadores binários, além de não usar espaço antes da 
+ # vírgula. Exemplo: voto <- data.frame(df, ano)*
+    
+ # e) Assignment: Usar "<-" para atribuir e não "=". Exemplo: X <- 10*
+      
+ # f) Commenting Guidelines: Utilizar o "#" e usar um espaço para comentar um linha ou bloco de 
+ # código. Exemplo: # Gerando grafico de linha*
+  
+ # g) Function Definitios and Calls: As definições de função devem primeiro listar os argumentos 
+ # sem valores padrão, seguidos daqueles com valores padrão.
+ # Exemplo: PredictCTR <- function(query, property, num.days, show.plot = TRUE)*
+    
+ # h) Function Documentation: As funções devem conter uma seção de comentários imediatamente abaixo 
+ # da linha de definição da função. Exemplo: 
+  
+  #CalculateSampleCovariance <- function(x, y, verbose = TRUE) {
+    # Computes the sample covariance between two vectors.
+    #
+    # Args:
+    #   x: One of two vectors whose sample covariance is to be calculated.
+    #   y: The other vector. x and y must have the same length, greater than one,
+    #      with no missing values.
+    #   verbose: If TRUE, prints sample covariance; if not, not. Default is TRUE.*
+
+# 9. Leia o Capítulo 7 do livro R para Ciência de Dados  e entregue script no R que reproduza os 
+# exemplos apresentados no capítulo. Comente seu código indicando o que está para ser realizado em 
+# cada etapa do seu script.
+
+#Instalando a biblioteca do pacote tidyverse*
+
+library(tidyverse) 
+
+#Vizualizando varáveis categóricas a partir do gráfico de barras*
+
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut)) 
+
+#Pode-se calcular os valores da barra manualmente; utiliza-se dplyr::count()* 
+  
+diamonds %>% 
+  count(cut)
+
+#Analisando variáveis contínuas a partir do histograma*
+
+ggplot(data = diamonds) +
+  geom_histogram(mapping = aes(x = carat), binwidth = 0.5)
+
+#Analisando variáveis contínuas manualmente; utiliza-se dplyr::count()e ggplot2::cut_width() 
+#combinados*
+
+diamonds %>% 
+  count(cut_width(carat, 0.5))
+
+#Aplicação de zoom apenas nos diamantes com um tamanho inferior a três quilates e escolhendo uma
+#largura de caixa menor.*
+
+smaller <- diamonds %>% 
+  filter(carat < 3)
+
+ggplot(data = smaller, mapping = aes(x = carat)) +
+  geom_histogram(binwidth = 0.1)
+
+# "Se você deseja sobrepor vários histogramas no mesmo enredo, recomendo usar em geom_freqpoly() 
+#vez de geom_histogram(). geom_freqpoly()executa o mesmo cálculo que geom_histogram(), mas em vez 
+#de exibir as contagens com barras, usa linhas em vez disso. É muito mais fácil entender as linhas 
+#sobrepostas que as barras."*
+  
+  ggplot(data = smaller, mapping = aes(x = carat, colour = cut)) +
+  geom_freqpoly(binwidth = 0.1)
+
+# Analisando o histograma de forma mais detalhada
+  
+ggplot(data = smaller, mapping = aes(x = carat)) +
+  geom_histogram(binwidth = 0.01)
+
+# Relação de duas variáveis por meio do histograma: mostra a duração (em minutos) de 272 erupções
+#do Old Faithful Geyser no Parque Nacional de Yellowstone.
+
+ggplot(data = faithful, mapping = aes(x = eruptions)) + 
+geom_histogram(binwidth = 0.25)
+
+# Analisando valores incomuns
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = y), binwidth = 0.5)
+
+# Facilitando análise dos valores incomuns com o coord_cartesian
+
+ggplot(diamonds) + 
+geom_histogram(mapping = aes(x = y), binwidth = 0.5) +
+coord_cartesian(ylim = c(0, 50))
+
+# Analisando de forma descritiva os outliers
+
+unusual <- diamonds %>% filter(y < 3 | y > 20) %>%  select(price, x, y, z) %>% arrange(y)
+unusual  
+
+# Se você encontrou valores incomuns em seu conjunto de dados e deseja simplesmente passar para 
+#o restante de sua análise
+
+diamonds2 <- diamonds %>% 
+  filter(between(y, 3, 20))
+
+# Substituindo valores incomuns por valores ausentes
+
+diamonds2 <- diamonds %>% 
+  mutate(y = ifelse(y < 3 | y > 20, NA, y))
+
+# Avisando para que valores ausentes não desapareçam simplesmente
+
+ggplot(data = diamonds2, mapping = aes(x = x, y = y)) + 
+  geom_point()
+#> Warning: Removed 9 rows containing missing values (geom_point).
+
+
+# Para suprimir esse aviso, definindo na.rm = TRUE:
+
+ggplot(data = diamonds2, mapping = aes(x = x, y = y)) + 
+  geom_point(na.rm = TRUE)
+
+#Compararando os horários de partida programados para horários cancelados e não cancelados com 
+#"is.na". dep_time é a variável de voos.
+
+install.packages("nycflights13")
+
+nycflights13::flights %>% 
+  mutate(cancelled = is.na(dep_time),
+    sched_hour = sched_dep_time %/% 100,
+    sched_min = sched_dep_time %% 100,
+    sched_dep_time = sched_hour + sched_min / 60) %>% 
+  ggplot(mapping = aes(sched_dep_time)) + 
+  geom_freqpoly(mapping = aes(colour = cancelled), binwidth = 1/4)
+
+
+# Explorando os dados de uma variável contínua por uma variável categórica
+
+ggplot(data = diamonds, mapping = aes(x = price)) + 
+  geom_freqpoly(mapping = aes(colour = cut), binwidth = 500)
+
+#Analisando por um histograma; sendo x = qualidade do diamante
+
+ggplot(diamonds) + 
+  geom_bar(mapping = aes(x = cut))
+
+# Facilitando a comparação trocando o que é exibido no eixo y
+
+ggplot(data = diamonds, mapping = aes(x = price, y = ..density..)) + 
+  geom_freqpoly(mapping = aes(colour = cut), binwidth = 500)
+
+# Analisando valores categóricos e numéricos por boxplot
+
+ggplot(data = diamonds, mapping = aes(x = cut, y = price)) +
+  geom_boxplot()
+
+# Analisando coisas específicas no boxplot
+
+ggplot(data = mpg, mapping = aes(x = class, y = hwy)) +
+  geom_boxplot()
+
+# Para tornar a tendência mais fácil de ver, reordena-se com class base no valor mediano de hwy:
+
+ggplot(data = mpg) +
+  geom_boxplot(mapping = aes(x = reorder(class, hwy, FUN = median), y = hwy))
+
+# Se tiver nomes longos de variáveis, geom_boxplot() funcionará melhor se virar 90 °. 
+# pode-se fazer isso com coord_flip().
+
+ggplot(data = mpg) +
+  geom_boxplot(mapping = aes(x = reorder(class, hwy, FUN = median), y = hwy)) +
+  coord_flip()
+
+# Para visualizar a covariação entre variáveis categóricas, é contar o número 
+#de observações para cada combinação. Uma maneira de fazer isso é confiar no built-in geom_count()
+
+ggplot(data = diamonds) +
+  geom_count(mapping = aes(x = cut, y = color))
+
+# Calculando a contagem com o pacote dplyr
+
+diamonds %>% 
+  count(color, cut)
+
+# Vizualizando esteticamente a partir do geom_tile()
+
+diamonds %>% 
+  count(color, cut) %>%  
+  ggplot(mapping = aes(x = color, y = cut)) +
+  geom_tile(mapping = aes(fill = n))
+
+# Analisando a relação entre duas váriaveis contínuas pelo gráfico de dispersão
+
+ggplot(data = diamonds) +
+  geom_point(mapping = aes(x = carat, y = price))
+
+# Usando a alpha estética para adicionar transparência quando há muitos dados 
+
+ggplot(data = diamonds) + 
+  geom_point(mapping = aes(x = carat, y = price), alpha = 1 / 100)
+
+# Criando caixas retangulares para analisar onde se encontram os dados
+
+ggplot(data = smaller) +
+  geom_bin2d(mapping = aes(x = carat, y = price))
+
+install.packages("hexbin")
+
+ggplot(data = smaller) +
+  geom_hex(mapping = aes(x = carat, y = price))
+
+# Outra opção é binar uma variável contínua, para que ela funcione como uma variável categórica. 
+# Em seguida, usa-se uma das técnicas aprendidas para visualizar a combinação de uma variável 
+# categórica e uma variável contínua. Exemplo:
+
+ggplot(data = smaller, mapping = aes(x = carat, y = price)) + 
+  geom_boxplot(mapping = aes(group = cut_width(carat, 0.1)))
+
+# Outra abordagem é exibir aproximadamente o mesmo número de pontos em cada caixa. Esse é o trabalho
+# de cut_number():
+
+ggplot(data = smaller, mapping = aes(x = carat, y = price)) + 
+  geom_boxplot(mapping = aes(group = cut_number(carat, 20)))
+
+# Reproduzindo gráfico de dispersão 
+ggplot(data = diamonds) +
+  geom_point(mapping = aes(x = x, y = y)) +
+  coord_cartesian(xlim = c(4, 11), ylim = c(4, 11))
+
+# Um gráfico de dispersão dos comprimentos de erupção Old Faithful versus o tempo de espera entre 
+# erupções mostra um padrão: tempos de espera mais longos estão associados a erupções mais longas.
+ggplot(data = faithful) + 
+  geom_point(mapping = aes(x = eruptions, y = waiting))
+
+# O código a seguir se encaixa um modelo que prevê pricea partir de carate, em seguida, calcula os 
+# resíduos (a diferença entre o valor previsto e o valor real). Os resíduos nos dão uma visão do
+# preço do diamante, uma vez que o efeito do quilate foi removido.
+
+library(modelr)
+
+mod <- lm(log(price) ~ log(carat), data = diamonds)
+
+diamonds2 <- diamonds %>% 
+  add_residuals(mod) %>% 
+  mutate(resid = exp(resid))
+
+ggplot(data = diamonds2) + 
+  geom_point(mapping = aes(x = carat, y = resid))
+
+# Uma vez que foi removida a forte relação entre quilate e preço, pode-se ver o que se espera 
+# da relação entre corte e preço: em relação ao seu tamanho, diamantes de melhor qualidade são 
+# mais caros.
+
+ggplot(data = diamonds2) + 
+  geom_boxplot(mapping = aes(x = cut, y = resid))
+
+# Reprodruzindo um freqpoly
+
+ggplot(data = faithful, mapping = aes(x = eruptions)) + 
+  geom_freqpoly(binwidth = 0.25)
+
+# Reescrevendo gráfico anterior de forma concisa 
+
+ggplot(faithful, aes(eruptions)) + 
+  geom_freqpoly(binwidth = 0.25)
+
+# Observando a transição do "pipe" para o "+"
+
+diamonds %>% 
+  count(cut, clarity) %>% 
+  ggplot(aes(clarity, cut, fill = n)) + 
+  geom_tile()
+
+# 10. Com os dados disponibilizados na plataforma (vote_growth_usa.RData), reproduza os resultados 
+# do livro Kellstedt, P. M., & Whitten, G. D. (2013) utilizando o código apresentado nos slides da 
+# aula.
+  
+
+# Carregando pacotes
+if(require(tidyverse) == F) install.packages('tidyverse'); require(tidyverse)
+if(require(ggplot2) == F) install.packages('ggplot2'); require(ggplot2)
+
+# Carregando o banco de dados
+setwd("C:/GitHub/Lista_5/Lista_5/Dados")
+load("vote_growth_usa.RData")
+VoteGrowth <- bd
+rm(bd)
+
+# Realizando regressão
+reg10 <- lm(Vote ~ Growth, data = VoteGrowth)
+summary(reg10)
+
+# Produzindo gráfico de dispersão
+ggplot(VoteGrowth, aes(Vote, Growth)) + 
+  labs(x = "Voto", y ="Crescimento", title = "Gráfico de dispersão") +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+
+# 11.Com os dados e as variáveis do exercício 10, realize uma análise de regressão considerando 
+# apenas o período de 1876 a 1932. Apresente os resultados e os compare quanto ao modelo completo 
+# (exercício 10) em relação a:
+
+# Realizado regressão do período de 1876 a 1932
+reg11 <- lm(Vote[1:15] ~ Growth[1:15], data = VoteGrowth)
+summary(reg11)
+
+# Produzindo gráfico de dispersão
+votegrowth11 <- VoteGrowth[1:15, c('Year','Growth','Vote')]
+ggplot(votegrowth11, aes(Vote, Growth)) + 
+  labs(x = "Voto", y ="Crescimento", title = "Gráfico de dispersão") +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+
