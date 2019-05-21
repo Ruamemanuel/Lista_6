@@ -34,13 +34,13 @@
 #4. Apresente o componente sistematico da equacao apresentada no exercicio 2. Descreva por que  
 #sistematico.
     
- #$$ Y_i = \alpha_i + \beta_iX$$
+ # Y_i = alpha_i + beta_iX
  # É sistemático por ser base explicativa.
   
 #5. Apresente o componente estocastico da equa??o apresentada no exercicio 2. Descreva por que  
 #estocastico.
     
- #$$\mu_i = Y_0 - Y_1 $$
+ # mu_i = Y - Yi 
  # O componente estocástico seria o valor aleatorio da equaçao. E estocastico porque depende de um 
  # evento que pode ou nao acontecer.
   
