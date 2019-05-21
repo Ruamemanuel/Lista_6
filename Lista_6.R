@@ -367,19 +367,27 @@ ggplot(VoteGrowth, aes(Vote, Growth)) +
 
 VoteGrowth2 <- VoteGrowth[1:15, c("Year","Growth","Vote")]
 
+#Analisando os dados 
+
+summary(VoteGrowth2)
+
 # Construindo outro modelo
 
 reg2 <- lm(Vote ~ Growth, data = VoteGrowth2)
+
+#Analisando os dados
+
+summary(reg2)
 
 # Encontrando o intervalo de confiança 
 
 confint(reg2)
 
-# Gráficos 
+# Gráfico 
 
 ggplot(VoteGrowth2, aes(Vote,Growth))+geom_point()+geom_smooth(method = "lm")
 
-# a) O variável independente é estatisticamente significante
+# a) A variável independente é estatisticamente significante
 
 # b) 0,64 no primeiro modelo e 1,02 no segundo modelo. Foram analisados a partir da função confint
 
