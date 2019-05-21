@@ -359,9 +359,19 @@ ggplot(VoteGrowth, aes(Vote, Growth)) +
 VoteGrowth2 <- VoteGrowth[1:15, c("Year","Growth","Vote")]
 ```
 
+#Analisando os dados 
+```{r}
+summary(VoteGrowth2)
+```
+
 # Construindo outro modelo
 ```{r}
 reg2 <- lm(Vote ~ Growth, data = VoteGrowth2)
+```
+
+#Analisando os dados
+```{r}
+summary(reg2)
 ```
 
 # Encontrando o intervalo de confiança 
