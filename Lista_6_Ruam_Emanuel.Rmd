@@ -47,7 +47,7 @@ O componente estocástico seria o valor aleatorio da equaçao. E estocastico por
 
 **7.Com suas palavras, apresente o que e o modelo OLS e seu principal uso na analise de dados.**
 
-O OLS busca encontrar um melhor ajuste para o conjunto de dados. 
+O OLS busca encontrar um melhor ajuste para o conjunto de dados. Esse modelo oferece maior precisão ao oferecer estimativas.
 
 **8.Com base no Google’s R Style Guide, apresente exemplos de boas práticas para os seguintes tópicos:**
 
